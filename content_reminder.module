@@ -3,7 +3,16 @@
  * @file
  */
 
-// Drupal needs this blank file.
+/**
+ * Implements hook_permission().
+ */
+function content_reminder_permission() { 
+  $perms = array();
+  $perms['content reminder administration'] = array(
+    'title' => t('Administer content reminder'),
+  );
+  return $perms;
+}
 
 /**
  * Implements hook_menu().
@@ -11,12 +20,13 @@
 function content_reminder_menu() {
   $items = array();
 
+  // configuration page
   $items['admin/config/workflow/content_reminder'] = array(
     'title' => t('Content reminder'),
     'description' =>  t('Content reminder conifguration'),
     'page callback' => 'drupal_get_form',
     'page arguments' => array('content_reminder_config_form'),
-    'access arguments' => array('access administration pages'),
+    'access arguments' => array('content reminder administration'),
     'type' => MENU_NORMAL_ITEM,
   );
   
@@ -31,6 +41,11 @@ function content_reminder_menu() {
   return $items;
 }
 
+/**
+ * Implements hook_form
+ * 
+ * this is the configuration form
+ */
 function content_reminder_config_form($form, &$form_state) {
   $form['content_reminder_presets'] = array(
     '#type' => 'textarea',
@@ -299,7 +314,7 @@ function content_reminder_field_info() {
       'label' => t('Notification message'),
       'description' => t('Sends a message to selected users.'),
       'default_widget' => 'content_reminder_widget',
-      'default_formatter' => NULL,
+      'default_formatter' => 'none',
       'no_ui' => TRUE,
     ),
   );
@@ -644,3 +659,4 @@ function content_reminder_notification_field() {
     ),
   );
 }
+
