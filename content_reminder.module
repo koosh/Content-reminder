@@ -34,7 +34,7 @@ function content_reminder_menu() {
   $items['user/autocomplete/content-reminder'] = array(
     'title' => t('User selection'),
     'page callback' => 'content_reminder_user_autocomplete',
-    'access arguments' => array('view content'),
+    'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
   
