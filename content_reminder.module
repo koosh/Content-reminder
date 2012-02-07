@@ -560,6 +560,9 @@ function content_reminder_cron() {
                   $users[$uid] = user_load($uid);
                 }
                 
+                $eid = entity_extract_ids($entity_type, $item);
+                $eid = $eid[0];
+                
                 drupal_mail(
                   'content_reminder',
                   'notice', $users[$uid]->mail,
@@ -568,11 +571,11 @@ function content_reminder_cron() {
                     'account' => $users[$uid],
                     'message' => $item->{$field_name}[LANGUAGE_NONE][0]['message'],
                     'item' => $item,
-                    'link' => l($item->title, $entity_type.'/'.$item->vid, array('absolute' => TRUE)),
-                    'url' => url($entity_type.'/'.$item->vid, array('absolute' => TRUE)),
+                    'link' => l($item->title, $entity_type.'/'.$eid, array('absolute' => TRUE)),
+                    'url' => url($entity_type.'/'.$eid, array('absolute' => TRUE)),
                   )
                 );
-                watchdog('content_reminder', 'Notification sent to user: '.$users[$uid]->name.' ('.$users[$uid]->mail.'), link: '.l($item->title, $entity_type.'/'.$item->vid, array('absolute' => TRUE)));
+                watchdog('content_reminder', 'Notification sent to user: '.$users[$uid]->name.' ('.$users[$uid]->mail.'), link: '.l($item->title, $entity_type.'/'.$eid, array('absolute' => TRUE)));
               }
               
               $item->{$field_name}[LANGUAGE_NONE][0]['enabled'] = 0;
