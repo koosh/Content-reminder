@@ -22,8 +22,8 @@ function content_reminder_menu() {
 
   // configuration page
   $items['admin/config/workflow/content_reminder'] = array(
-    'title' => t('Content reminder'),
-    'description' =>  t('Content reminder conifguration'),
+    'title' => 'Content reminder',
+    'description' =>  'Content reminder conifguration',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('content_reminder_config_form'),
     'access arguments' => array('content reminder administration'),
@@ -32,7 +32,7 @@ function content_reminder_menu() {
   
   // creates autocomplete for locations
   $items['user/autocomplete/content-reminder'] = array(
-    'title' => t('User selection'),
+    'title' => 'User selection',
     'page callback' => 'content_reminder_user_autocomplete',
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
@@ -51,7 +51,8 @@ function content_reminder_config_form($form, &$form_state) {
     '#type' => 'textarea',
     '#title' => t('Presets'),
     '#description' => t('Presets'),
-    '#default_value' => variable_get('content_reminder_presets', 'today + 1 month|One month'."\n".'today + 2 month|Two months'."\n".'2011-12-12|December 12'),
+    '#default_value' => variable_get('content_reminder_presets',
+       'today + 1 month|One month' . "\n" . 'today + 2 month|Two months' . "\n" . '2011-12-12|December 12'),
     '#cols' => 10,
   );
   
@@ -59,7 +60,7 @@ function content_reminder_config_form($form, &$form_state) {
   $entities = entity_get_info();
   foreach ($entities as &$entity) {
     foreach ($entity['bundles'] as $key => &$bundle) {
-      $options[$key] = $bundle['label'].' ('.$entity['label'].')';
+      $options[$key] = $bundle['label'] . ' (' . $entity['label'] . ')';
     }
   }
   
@@ -91,16 +92,16 @@ function content_reminder_update_types($form, &$form_state) {
     }
   }
   
-  foreach($form_state['values']['content_reminder_bundles'] as $bundle => $enabled) {
-    if($enabled) {
+  foreach ($form_state['values']['content_reminder_bundles'] as $bundle => $enabled) {
+    if ($enabled) {
       // add field
-      if(isset($bundles[$bundle])) {
+      if (isset($bundles[$bundle])) {
         content_reminder_add_notification_field($bundles[$bundle]['entity'], $bundles[$bundle]['bundle']);      
       }
     }
     else {
       // remove field
-      if(isset($bundles[$bundle])) {
+      if (isset($bundles[$bundle])) {
         content_reminder_remove_notification_field($bundles[$bundle]['entity'], $bundles[$bundle]['bundle']);
       }
     }
@@ -134,12 +135,12 @@ function date_with_preset_selection_process($element, &$form_state, $complete_fo
 
   // Normal FAPI field definitions, except that #value is defined.
   $presets = array(0 => NULL);
-  foreach (explode("\n", variable_get('content_reminder_presets')) as $value) if($value) {
+  foreach (explode("\n", variable_get('content_reminder_presets')) as $value) if ($value) {
     $preset = explode('|', $value);
     $presets[strtotime($preset[0])] = $preset[1];
   }
   
-  if(sizeof($presets) > 1) {
+  if (sizeof($presets) > 1) {
     $element['preset'] = array(
       '#type' => 'select',
       '#options' => $presets,
@@ -151,7 +152,7 @@ function date_with_preset_selection_process($element, &$form_state, $complete_fo
       ),
     );
     
-    if(isset($element['#default_value']['preset'])) {
+    if (isset($element['#default_value']['preset'])) {
       $element['preset']['#default_value'] = $element['#default_value']['preset'];
     }
     
@@ -170,7 +171,7 @@ function date_with_preset_selection_process($element, &$form_state, $complete_fo
     ),
   );
   
-  if(isset($element['#default_value']['precise'])) {
+  if (isset($element['#default_value']['precise'])) {
     $element['precise']['#default_value'] = $element['#default_value']['precise'];
   }
   
@@ -181,7 +182,7 @@ function date_with_preset_selection_process($element, &$form_state, $complete_fo
  */
 function date_with_preset_selection_validate($element, &$form_state) {
   // Consolidate into the three parts into one combined value.
-  if(isset($value['preset'])) $value['preset'] = $element['preset']['#value'];
+  if (isset($value['preset'])) $value['preset'] = $element['preset']['#value'];
   $value['precise'] = $element['precise']['#value'];
   form_set_value($element, $value, $form_state);
   return $element;
@@ -277,7 +278,7 @@ function theme_date_with_preset_selection_form_element($variables) {
  */
 function content_reminder_user_autocomplete($string = '') {
   $matches = array();
-  if(strlen($string) > 1) {
+  if (strlen($string) > 1) {
     $names = explode(',', $string);
     foreach ($names as &$name) {
       $name = trim($name);
@@ -356,7 +357,7 @@ function content_reminder_field_widget_form(&$form, &$form_state, $field, $insta
         '#group' => 'additional_settings',
       );
       
-      if(isset($form['options']['#weight'])) {
+      if (isset($form['options']['#weight'])) {
         $widget += array(
           '#weight' => $form['options']['#weight'] + 1,
         );
@@ -414,10 +415,6 @@ function content_reminder_field_widget_form(&$form, &$form_state, $field, $insta
 function content_reminder_field_validate($entity_type, $entity, $field, $instance, $langcode, $items, &$errors) {
   foreach ($items as $delta => $item) {
     if (!empty($item['content_reminder'])) {
-      //$errors[$field['field_name']][$langcode][$delta][] = array(
-      //  'error' => 'field_example_invalid',
-      //  'message' => t('Color must be in the HTML format #abcdef.'),
-      //);
     }
   }
 }
@@ -467,7 +464,7 @@ function content_reminder_field_insert($entity_type, $entity, $field, $instance,
 function content_reminder_field_update($entity_type, $entity, $field, $instance, $langcode, &$items) { 
   foreach ($items as $delta => &$item) {
     // adjust values when submitted via form
-    if(isset($item['content_reminder'])) {
+    if (isset($item['content_reminder'])) {
       $item = $item['content_reminder'];
       
       $users = explode(',', $item['users']);
@@ -502,8 +499,8 @@ function content_reminder_field_update($entity_type, $entity, $field, $instance,
  */
 function content_reminder_add_notification_field($entity_type, $bundle_name) {
   $field_info = content_reminder_notification_field();
-  $field_info['field_config']['field_name'] = 'content_reminder_'.$bundle_name;
-  $field_info['field_instance']['field_name'] = 'content_reminder_'.$bundle_name;
+  $field_info['field_config']['field_name'] = 'content_reminder_' . $bundle_name;
+  $field_info['field_instance']['field_name'] = 'content_reminder_' . $bundle_name;
   $field_info['field_instance']['bundle'] = $bundle_name;
   $field_info['field_instance']['entity_type'] = $entity_type;
   
@@ -512,7 +509,8 @@ function content_reminder_add_notification_field($entity_type, $bundle_name) {
     $field = field_create_field($field_info['field_config']);
   }
 
-  $instance = field_info_instance($field_info['field_instance']['entity_type'], $field_info['field_instance']['field_name'], $field_info['field_instance']['bundle']);
+  $instance = field_info_instance($field_info['field_instance']['entity_type'],
+    $field_info['field_instance']['field_name'], $field_info['field_instance']['bundle']);
   if (empty($instance)) {
     field_create_instance($field_info['field_instance']);
   }
@@ -521,7 +519,7 @@ function content_reminder_add_notification_field($entity_type, $bundle_name) {
 /**
  */
 function content_reminder_remove_notification_field($entity_type, $bundle_name) {
-  $instance = field_info_instance($entity_type, 'content_reminder_'.$bundle_name, $bundle_name);
+  $instance = field_info_instance($entity_type, 'content_reminder_' . $bundle_name, $bundle_name);
   if (!empty($instance)) {
     field_delete_instance($instance, FALSE);
   }
@@ -533,15 +531,15 @@ function content_reminder_remove_notification_field($entity_type, $bundle_name) 
 function content_reminder_cron() {
   // if not deleted and is enabled and the date is in the past send emails and mark disabled / or sent? aggregate emails?
   $notification_bundles = variable_get('content_reminder_bundles', array());
-  if(!empty($notification_bundles)) {
+  if (!empty($notification_bundles)) {
     $users = array();
     
     $instances = field_info_instances();
     
     foreach ($instances as $entity_type => &$bundles) {
       foreach ($bundles as $bundle_name => &$fields) {
-        $field_name = 'content_reminder_'.$bundle_name;
-        if(in_array($bundle_name, $notification_bundles, TRUE) && isset($fields[$field_name]) && $fields[$field_name]['deleted'] != 1) {
+        $field_name = 'content_reminder_' . $bundle_name;
+        if (in_array($bundle_name, $notification_bundles, TRUE) && isset($fields[$field_name]) && $fields[$field_name]['deleted'] != 1) {
           $query = new EntityFieldQuery();
           $query->entityCondition('entity_type', $entity_type)
             ->entityCondition('bundle', $bundle_name)
@@ -549,14 +547,14 @@ function content_reminder_cron() {
             ->fieldCondition($field_name, 'date', date('Y-m-d H:i'), '<');
           $result = $query->execute();
           
-          if(!empty($result)) {
+          if (!empty($result)) {
             $items = array_keys($result[$entity_type]);
             $items = entity_load($entity_type, $items);
             
             foreach ($items as $eid => &$item) {
               $uids = explode(',', $item->{$field_name}[LANGUAGE_NONE][0]['uids']);
               foreach ($uids as $uid) {
-                if(!array_key_exists($uid, $users)) {
+                if (!array_key_exists($uid, $users)) {
                   $users[$uid] = user_load($uid);
                 }
                 
@@ -571,11 +569,12 @@ function content_reminder_cron() {
                     'account' => $users[$uid],
                     'message' => $item->{$field_name}[LANGUAGE_NONE][0]['message'],
                     'item' => $item,
-                    'link' => l($item->title, $entity_type.'/'.$eid, array('absolute' => TRUE)),
-                    'url' => url($entity_type.'/'.$eid, array('absolute' => TRUE)),
+                    'link' => l($item->title, $entity_type . '/' . $eid, array('absolute' => TRUE)),
+                    'url' => url($entity_type . '/' . $eid, array('absolute' => TRUE)),
                   )
                 );
-                watchdog('content_reminder', 'Notification sent to user: '.$users[$uid]->name.' ('.$users[$uid]->mail.'), link: '.l($item->title, $entity_type.'/'.$eid, array('absolute' => TRUE)));
+                watchdog('content_reminder', 'Notification sent to user: ' . $users[$uid]->name . ' (' . $users[$uid]->mail . '), link: '
+                  . l($item->title, $entity_type . '/' . $eid, array('absolute' => TRUE)));
               }
               
               $item->{$field_name}[LANGUAGE_NONE][0]['enabled'] = 0;
@@ -596,7 +595,7 @@ function content_reminder_mail($key, &$message, $params) {
     'langcode' => $message['language']->language,
   );
   
-  switch($key) {
+  switch ($key) {
     case 'notice':
       $message['subject'] = t('Notification sent from @site-name: @title',
         array('@site-name' => variable_get('site_name', 'Drupal'), '@title' => $params['item']->title), $options);
