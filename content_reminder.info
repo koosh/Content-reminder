@@ -5,5 +5,3 @@ description = "Set up reminders for content"
 configure = admin/config/workflow/content_reminder
 name = "Content reminder"
 package = "Workflow"
-project = "content_reminder"
-version = "7.x-1.0"

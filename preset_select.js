@@ -1,7 +1,8 @@
 (function ($) {
   Drupal.behaviors.content_reminder_preset_select = {
     attach: function (context, settings) {
-      $('.content-reminder-precise-date', context).focus(); // the datepicker is attached on the first focus
+      // the datepicker is attached on the first focus
+      $('.content-reminder-precise-date', context).focus();
       
       $('.content-reminder-preset-select', context).change(function () {
         var timestamp = parseInt($(this).val());
