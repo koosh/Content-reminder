@@ -10,31 +10,31 @@
 function content_reminder_field_schema($field) {
   $columns = array(
     'enabled' => array(
-      'description' => 'Enabled flag.', 
+      'description' => 'Enabled flag.',
       'type' => 'int',
-      'size' => 'tiny', 
-      'unsigned' => TRUE, 
+      'size' => 'tiny',
+      'unsigned' => TRUE,
       'not null' => TRUE,
       'default' => 0,
     ),
     'uids' => array(
-      'description' => 'Comma separated list of user IDs whom to send the message.', 
+      'description' => 'Comma separated list of user IDs whom to send the message.',
       'type' => 'text',
-      'not null' => FALSE, 
+      'not null' => FALSE,
     ),
     'message' => array(
-      'description' => 'The message to send.', 
+      'description' => 'The message to send.',
       'type' => 'text',
-      'not null' => FALSE, 
+      'not null' => FALSE,
     ),
     'date' => array(
-      'description' => 'Date when to send the notification.', 
-      'type' => 'datetime', 
+      'description' => 'Date when to send the notification.',
+      'type' => 'datetime',
       'mysql_type' => 'datetime',
       'pgsql_type' => 'timestamp without time zone',
       'sqlite_type' => 'varchar',
       'sqlsrv_type' => 'smalldatetime',
-      'not null' => TRUE, 
+      'not null' => TRUE,
     ),
   );
   $indexes = array(

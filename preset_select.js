@@ -3,7 +3,7 @@
     attach: function (context, settings) {
       // the datepicker is attached on the first focus
       $('.content-reminder-precise-date', context).focus();
-      
+
       $('.content-reminder-preset-select', context).change(function () {
         var timestamp = parseInt($(this).val());
         if(timestamp) {
@@ -11,7 +11,7 @@
           $('.content-reminder-precise-date', context).datepicker('setDate', date);
         }
       });
-      
+
       $('.content-reminder-precise-date', context).change(function () {
         $('.content-reminder-preset-select', context).val(0);
       });
