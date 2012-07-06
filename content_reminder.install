@@ -45,3 +45,12 @@ function content_reminder_field_schema($field) {
     'indexes' => $indexes,
   );
 }
+
+/**
+ * Implements hook_uninstall().
+ */
+function content_reminder_uninstall() {
+  // Remove variables.
+  variable_del('content_reminder_presets');
+  variable_del('content_reminder_bundles');
+}
