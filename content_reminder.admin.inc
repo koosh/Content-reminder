@@ -22,10 +22,16 @@ function content_reminder_config_form($form, &$form_state) {
   );
 
   $options = array();
+  $cant_use = array();
   $entities = entity_get_info();
   foreach ($entities as &$entity) {
     foreach ($entity['bundles'] as $key => &$bundle) {
-      $options[$key] = $bundle['label'] . ' (' . $entity['label'] . ')';
+      if(strlen('cntrmd_' . $key) > 32) {
+        $cant_use[$key] = $bundle['label'] . ' (' . $entity['label'] . ')';
+      }
+      else {
+        $options[$key] = $bundle['label'] . ' (' . $entity['label'] . ')';
+      }
     }
   }
 
@@ -36,6 +42,16 @@ function content_reminder_config_form($form, &$form_state) {
     '#default_value' => variable_get('content_reminder_bundles', array()),
     '#options' => $options,
   );
+
+  if($cant_use) {
+    $form['content_reminder_unusable'] = array(
+      '#type' => 'checkboxes',
+      '#title' => t('Types'),
+      '#description' => t('Which types can not be notified, due to Drupal field length restriciton.'),
+      '#options' => $cant_use,
+      '#disabled' => TRUE,
+    );
+  }
 
   $form['#submit'][] = 'content_reminder_update_types';
 
@@ -80,10 +96,18 @@ function content_reminder_update_types($form, &$form_state) {
  */
 function content_reminder_add_notification_field($entity_type, $bundle_name) {
   $field_info = content_reminder_notification_field();
-  $field_info['field_config']['field_name'] = 'content_reminder_' . $bundle_name;
-  $field_info['field_instance']['field_name'] = 'content_reminder_' . $bundle_name;
+  $field_info['field_config']['field_name'] = 'cntrmd_' . $bundle_name;
+  $field_info['field_instance']['field_name'] = 'cntrmd_' . $bundle_name;
   $field_info['field_instance']['bundle'] = $bundle_name;
   $field_info['field_instance']['entity_type'] = $entity_type;
+
+  if(strlen($field_info['field_config']['field_name']) > 32) {
+    drupal_set_message(
+      t('Can not add reminder field to !bundle_type, the field name exceeds the allowed limit.',
+        array('!bundle_type' => $bundle_name)), $type = 'error'
+    );
+    return;
+  }
 
   $field = field_info_field($field_info['field_config']['field_name']);
   if (empty($field)) {
