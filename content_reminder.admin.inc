@@ -13,7 +13,7 @@ function content_reminder_config_form($form, &$form_state) {
   $form['content_reminder_presets'] = array(
     '#type' => 'textarea',
     '#title' => t('Presets'),
-    '#description' => t('Presets'),
+    '#description' => t('Presets for notification dates. Uses the strtotime PHP function as value. Put each preset as a value|label row.'),
     '#default_value' => variable_get('content_reminder_presets',
       'today + 1 month|One month' . "\n" .
       'today + 2 month|Two months' . "\n" .
