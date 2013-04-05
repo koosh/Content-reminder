@@ -10,7 +10,7 @@
 function content_reminder_permission() {
   $perms['content reminder administration'] = array(
     'title' => t('Administer content reminder'),
-    'description' => 'Administer content reminder conifguration.',
+    'description' => t('Administer content reminder configuration.'),
   );
   return $perms;
 }
