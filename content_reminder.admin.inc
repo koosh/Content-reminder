@@ -46,7 +46,7 @@ function content_reminder_config_form($form, &$form_state) {
   if($cant_use) {
     $form['content_reminder_unusable'] = array(
       '#type' => 'checkboxes',
-      '#title' => t('Types'),
+      '#title' => t('Other types'),
       '#description' => t('Which types can not be notified, due to Drupal field length restriciton.'),
       '#options' => $cant_use,
       '#disabled' => TRUE,
