@@ -6,7 +6,9 @@ to remind content editors to check the consistency and/or relevancy of that
 particular item.
 
 Enable content types from admin/config/workflow/content_reminder, make sure
-cron is running. 
+cron is running.
+
+Give appropriate roles permission to set reminders. 
 
 Create a content or edit existing and set a reminder.
 
