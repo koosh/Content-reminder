@@ -8,6 +8,10 @@
  * Implements hook_permission().
  */
 function content_reminder_permission() {
+  $perms['use content reminders'] = array(
+    'title' => t('Use content reminders'),
+    'description' => t('Allows user to set content reminders.'),
+  );
   $perms['content reminder administration'] = array(
     'title' => t('Administer content reminder'),
     'description' => t('Administer content reminder configuration.'),
@@ -34,7 +38,7 @@ function content_reminder_menu() {
   $items['user/autocomplete/content-reminder'] = array(
     'title' => 'User selection',
     'page callback' => 'content_reminder_user_autocomplete',
-    'access arguments' => array('access content'),
+    'access arguments' => array('use content reminders'),
     'type' => MENU_CALLBACK,
   );
 
@@ -286,6 +290,7 @@ function content_reminder_field_widget_form(&$form, &$form_state, $field, $insta
 
   $widget = $element;
   $widget['#delta'] = $delta;
+  $widget['#access'] = user_access('use content reminders') ? TRUE : FALSE;
 
   switch ($instance['widget']['type']) {
     case 'content_reminder_widget':
