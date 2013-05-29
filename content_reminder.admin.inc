@@ -26,7 +26,7 @@ function content_reminder_config_form($form, &$form_state) {
   $entities = entity_get_info();
   foreach ($entities as &$entity) {
     foreach ($entity['bundles'] as $key => &$bundle) {
-      if(strlen('cntrmd_' . $key) > 32) {
+      if (strlen('cntrmd_' . $key) > 32) {
         $cant_use[$key] = $bundle['label'] . ' (' . $entity['label'] . ')';
       }
       else {
@@ -43,7 +43,7 @@ function content_reminder_config_form($form, &$form_state) {
     '#options' => $options,
   );
 
-  if($cant_use) {
+  if ($cant_use) {
     $form['content_reminder_unusable'] = array(
       '#type' => 'checkboxes',
       '#title' => t('Other types'),
@@ -101,7 +101,7 @@ function content_reminder_add_notification_field($entity_type, $bundle_name) {
   $field_info['field_instance']['bundle'] = $bundle_name;
   $field_info['field_instance']['entity_type'] = $entity_type;
 
-  if(strlen($field_info['field_config']['field_name']) > 32) {
+  if (strlen($field_info['field_config']['field_name']) > 32) {
     drupal_set_message(
       t('Can not add reminder field to !bundle_type, the field name exceeds the allowed limit.',
         array('!bundle_type' => $bundle_name)), $type = 'error'

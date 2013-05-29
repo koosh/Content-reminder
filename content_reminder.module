@@ -80,7 +80,7 @@ function content_reminder_date_with_preset_selection_process($element, &$form_st
     }
   }
 
-  if (sizeof($presets) > 1) {
+  if (count($presets) > 1) {
     $element['preset'] = array(
       '#type' => 'select',
       '#options' => $presets,
