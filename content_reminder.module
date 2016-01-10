@@ -487,6 +487,7 @@ function content_reminder_cron() {
 
               $item->{$field_name}[LANGUAGE_NONE][0]['enabled'] = 0;
               field_attach_update($entity_type, $item);
+              entity_get_controller($entity_type)->resetCache(array($eid));
             }
           }
         }
