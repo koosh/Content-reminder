@@ -474,6 +474,7 @@ function content_reminder_cron() {
                     'account' => $users[$uid],
                     'message' => $item->{$field_name}[LANGUAGE_NONE][0]['message'],
                     'item' => $item,
+                    'entity_type' => $entity_type,
                     'link' => l($item->title, $entity_type . '/' . $eid, array('absolute' => TRUE)),
                     'url' => url($entity_type . '/' . $eid, array('absolute' => TRUE)),
                   )
