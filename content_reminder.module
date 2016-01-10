@@ -456,6 +456,8 @@ function content_reminder_cron() {
 
             foreach ($items as $eid => &$item) {
               $uids = explode(',', $item->{$field_name}[LANGUAGE_NONE][0]['uids']);
+              drupal_alter('content_reminder_recipients', $uids, $item);
+
               foreach ($uids as $uid) {
                 if (!array_key_exists($uid, $users)) {
                   $users[$uid] = user_load($uid);
